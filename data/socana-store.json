@@ -1,0 +1,68 @@
+{
+  "articles": [
+    {
+      "id": "art-saignee-hevea",
+      "slug": "maitriser-la-saignee-hevea-preserver-ecorce",
+      "title": "Maîtriser la saignée de l'hévéa : préserver l'écorce et la longévité des plantations",
+      "category": "Conseils agricoles",
+      "publishedAt": "2026-10-18",
+      "excerpt": "Angle d'incision, profondeur de coupe et respect des cycles de repos : les gestes techniques essentiels pour sécuriser le rendement sur le long terme.",
+      "content": [
+        "La qualité et la durée de vie productive d'une plantation d'hévéas reposent avant tout sur la rigueur technique apportée lors de la saignée. Une incision trop profonde endommage le cambium, compromet la régénération de l'écorce et expose l'arbre aux maladies du panneau.",
+        "Les conseillers agricoles de SOCANA COOP CA accompagnent directement les planteurs sur le terrain afin de vérifier l'angle d'inclinaison de l'encoche (généralement compris entre 30° et 35°), le réglage de la gouge et le rythme de saignée adapté à la vigueur des arbres.",
+        "Au-delà de la coupe, la propreté des gouttières et des tasses de récolte joue un rôle déterminant dans la pureté du latex naturel recueilli. En évitant les impuretés végétales et les contaminations extérieures, le producteur valorise mieux sa récolte lors des opérations de collecte."
+      ],
+      "mediaKey": "tapping",
+      "published": true,
+      "readTimeMinutes": 3
+    },
+    {
+      "id": "art-collecte-groupee",
+      "slug": "collecte-groupee-securiser-revenu-producteur",
+      "title": "Structuration coopérative : comment la collecte groupée sécurise le revenu du producteur",
+      "category": "Vie de la coopérative",
+      "publishedAt": "2026-09-29",
+      "excerpt": "Depuis 2016, l'organisation collective des tournées d'enlèvement et le contrôle transparent du poids renforcent la position économique des hévéaculteurs.",
+      "content": [
+        "L'isolement logistique demeure l'un des principaux freins à la rentabilité des exploitations familiales. En mutualisant la planification des enlèvements entre plusieurs bassins de production, la coopérative réduit les pertes après récolte et fluidifie l'évacuation du caoutchouc naturel.",
+        "Chaque lot déposé fait l'objet d'une pesée vérifiée et d'une traçabilité claire. Cette transparence établit une relation de confiance durable entre les membres adhérents et les équipes opérationnelles de SOCANA COOP CA.",
+        "La mise en marché collective permet également aux producteurs de bénéficier d'un accès plus régulier aux débouchés industriels tout en conservant un suivi administratif structuré."
+      ],
+      "mediaKey": "collection",
+      "published": true,
+      "readTimeMinutes": 3
+    },
+    {
+      "id": "art-agroforesterie-durable",
+      "slug": "gestion-durable-sols-bassins-heveicoles-ivoiriens",
+      "title": "Gestion durable des sols et couverture végétale dans les plantations ivoiriennes",
+      "category": "Développement durable",
+      "publishedAt": "2026-09-04",
+      "excerpt": "Préserver l'humidité des parcelles, limiter l'érosion pendant les saisons des pluies et accompagner la transition vers des pratiques agro-écologiques responsables.",
+      "content": [
+        "Le maintien d'un couvert végétal adapté entre les lignes d'hévéas protège les sols tropicaux contre le lessivage et favorise la rétention d'eau durant les périodes sèches. Ces pratiques améliorent la vigueur des jeunes plants dès les premières années d'implantation.",
+        "SOCANA COOP CA encourage la gestion raisonnée des intrants, le désherbage sélectif et la sensibilisation continue des planteurs à la préservation des zones boisées environnantes.",
+        "Cette démarche s'inscrit dans notre vision fondatrice : bâtir une filière du caoutchouc naturel ivoirien performante sur le plan économique tout en respectant les équilibres environnementaux des territoires ruraux."
+      ],
+      "mediaKey": "sustainable",
+      "published": true,
+      "readTimeMinutes": 3
+    }
+  ],
+  "partners": [],
+  "customStats": [],
+  "settings": {
+    "location": "Abidjan, Côte d'Ivoire",
+    "addressDetail": "",
+    "email": "",
+    "phone": "",
+    "socialLinks": {
+      "facebook": "",
+      "linkedin": "",
+      "instagram": ""
+    }
+  },
+  "memberships": [],
+  "partnerships": [],
+  "contacts": []
+}

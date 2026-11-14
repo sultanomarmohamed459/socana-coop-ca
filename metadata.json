@@ -1,0 +1,8 @@
+{
+  "name": "SOCANA COOP CA",
+  "description": "Site web institutionnel de SOCANA COOP CA, coopérative agricole ivoirienne spécialisée dans l'hévéaculture, l'accompagnement des producteurs, la collecte et la commercialisation du caoutchouc naturel depuis 2016.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
