@@ -1,6 +1,9 @@
+import { useEffect, useRef } from 'react';
 import {
   ArrowRight,
   Award,
+  ChevronLeft,
+  ChevronRight,
   Compass,
   Handshake,
   Leaf,
@@ -95,6 +98,72 @@ export function HomePage({
   loading = false,
   onNavigate,
 }: HomePageProps) {
+  const activitiesScrollerRef = useRef<HTMLDivElement>(null);
+  const floatScrollRef = useRef(0);
+  const isHoveredRef = useRef(false);
+  const manualPauseUntilRef = useRef(0);
+  const needsSyncRef = useRef(false);
+
+  useEffect(() => {
+    const el = activitiesScrollerRef.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let rafId = 0;
+    let lastTime = performance.now();
+
+    const step = (now: number) => {
+      const dt = Math.min(now - lastTime, 64);
+      lastTime = now;
+
+      const halfWidth = el.scrollWidth / 2;
+      if (halfWidth > 0) {
+        if (isHoveredRef.current || now < manualPauseUntilRef.current) {
+          needsSyncRef.current = true;
+        } else {
+          if (needsSyncRef.current) {
+            floatScrollRef.current = el.scrollLeft;
+            needsSyncRef.current = false;
+          }
+          floatScrollRef.current += (dt * 36) / 1000;
+          if (floatScrollRef.current >= halfWidth) {
+            floatScrollRef.current -= halfWidth;
+          } else if (floatScrollRef.current < 0) {
+            floatScrollRef.current += halfWidth;
+          }
+          el.scrollLeft = floatScrollRef.current;
+        }
+      }
+
+      rafId = window.requestAnimationFrame(step);
+    };
+
+    rafId = window.requestAnimationFrame(step);
+    return () => window.cancelAnimationFrame(rafId);
+  }, []);
+
+  const handleScrollActivities = (direction: 'left' | 'right') => {
+    const el = activitiesScrollerRef.current;
+    if (!el) return;
+    const halfWidth = el.scrollWidth / 2;
+    if (halfWidth <= 0) return;
+
+    const cardStep = window.innerWidth < 640 ? 314 : 407;
+    manualPauseUntilRef.current = performance.now() + 750;
+    needsSyncRef.current = true;
+
+    if (direction === 'left' && el.scrollLeft < cardStep) {
+      el.scrollLeft += halfWidth;
+    } else if (direction === 'right' && el.scrollLeft + cardStep > halfWidth * 1.8) {
+      el.scrollLeft -= halfWidth;
+    }
+
+    el.scrollBy({
+      left: direction === 'right' ? cardStep : -cardStep,
+      behavior: 'smooth',
+    });
+  };
+
   const latestArticles = articles?.slice(0, 6) ?? [];
   const marqueeArticles =
     latestArticles.length === 0
@@ -276,55 +345,100 @@ export function HomePage({
             </button>
           </div>
 
-          {/* Horizontal Marquee Editorial Showcase */}
+          {/* Horizontal Marquee Editorial Showcase with Bidirectional Controls */}
           <div
-            className="articles-marquee-container relative overflow-hidden py-1"
-            aria-label="Défilement horizontal de nos activités"
+            className="relative"
+            onMouseEnter={() => {
+              isHoveredRef.current = true;
+            }}
+            onMouseLeave={() => {
+              isHoveredRef.current = false;
+            }}
+            onFocus={() => {
+              isHoveredRef.current = true;
+            }}
+            onBlur={() => {
+              isHoveredRef.current = false;
+            }}
           >
-            {/* Soft edge fades matching bg-white */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-14 bg-gradient-to-r from-white to-transparent"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-14 bg-gradient-to-l from-white to-transparent"
-            />
+            <div className="relative overflow-hidden py-1">
+              {/* Soft edge fades matching bg-white */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-14 bg-gradient-to-r from-white to-transparent"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-14 bg-gradient-to-l from-white to-transparent"
+              />
 
-            <div className="activities-marquee-track">
-              {[false, true].map((isDuplicate) => (
-                <div
-                  key={isDuplicate ? 'act-loop-b' : 'act-loop-a'}
-                  aria-hidden={isDuplicate ? true : undefined}
-                  className="flex items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8 shrink-0"
-                >
-                  {HOME_ACTIVITIES.map((act) => (
-                    <article
-                      key={`${isDuplicate ? 'b' : 'a'}-${act.number}`}
-                      className="group w-[290px] sm:w-[340px] lg:w-[375px] shrink-0 bg-[#F7F8F5] rounded-xl overflow-hidden border border-[#124B3B]/10 flex flex-col shadow-[0_2px_12px_-4px_rgba(18,75,59,0.05)]"
-                    >
-                      <div className="aspect-[4/3] overflow-hidden">
-                        <ResilientImage
-                          src={act.media.src}
-                          alt={isDuplicate ? '' : act.media.alt}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                        />
-                      </div>
-                      <div className="p-6 sm:p-7 space-y-2.5 flex-1">
-                        <p className="text-xs font-semibold tracking-[0.18em] text-[#B88A42] tabular-nums">
-                          {act.number}
-                        </p>
-                        <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#124B3B] leading-snug">
-                          {act.title}
-                        </h3>
-                        <p className="text-sm leading-relaxed text-[#4A554F]">
-                          {act.description}
-                        </p>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              ))}
+              <div
+                ref={activitiesScrollerRef}
+                aria-label="Défilement horizontal de nos activités"
+                onWheel={() => {
+                  manualPauseUntilRef.current = performance.now() + 900;
+                  needsSyncRef.current = true;
+                }}
+                onTouchStart={() => {
+                  manualPauseUntilRef.current = performance.now() + 900;
+                  needsSyncRef.current = true;
+                }}
+                className="flex overflow-x-auto no-scrollbar"
+              >
+                {[false, true].map((isDuplicate) => (
+                  <div
+                    key={isDuplicate ? 'act-loop-b' : 'act-loop-a'}
+                    aria-hidden={isDuplicate ? true : undefined}
+                    className="flex items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8 shrink-0"
+                  >
+                    {HOME_ACTIVITIES.map((act) => (
+                      <article
+                        key={`${isDuplicate ? 'b' : 'a'}-${act.number}`}
+                        className="group w-[290px] sm:w-[340px] lg:w-[375px] shrink-0 bg-[#F7F8F5] rounded-xl overflow-hidden border border-[#124B3B]/10 flex flex-col shadow-[0_2px_12px_-4px_rgba(18,75,59,0.05)]"
+                      >
+                        <div className="aspect-[4/3] overflow-hidden">
+                          <ResilientImage
+                            src={act.media.src}
+                            alt={isDuplicate ? '' : act.media.alt}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        </div>
+                        <div className="p-6 sm:p-7 space-y-2.5 flex-1">
+                          <p className="text-xs font-semibold tracking-[0.18em] text-[#B88A42] tabular-nums">
+                            {act.number}
+                          </p>
+                          <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#124B3B] leading-snug">
+                            {act.title}
+                          </h3>
+                          <p className="text-sm leading-relaxed text-[#4A554F]">
+                            {act.description}
+                          </p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bidirectional Scroll Buttons directly below */}
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => handleScrollActivities('left')}
+                aria-label="Faire défiler les activités vers l'arrière"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#124B3B]/20 bg-white text-[#124B3B] hover:bg-[#124B3B] hover:text-white hover:border-[#124B3B] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#124B3B]"
+              >
+                <ChevronLeft className="w-4 h-4" strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleScrollActivities('right')}
+                aria-label="Faire défiler les activités vers l'avant"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#124B3B]/20 bg-white text-[#124B3B] hover:bg-[#124B3B] hover:text-white hover:border-[#124B3B] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#124B3B]"
+              >
+                <ChevronRight className="w-4 h-4" strokeWidth={2} />
+              </button>
             </div>
           </div>
         </div>

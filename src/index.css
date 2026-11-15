@@ -58,6 +58,15 @@
   .articles-marquee-container:focus-within .activities-marquee-track {
     animation-play-state: paused;
   }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer base {
