@@ -45,8 +45,17 @@
     will-change: transform;
   }
 
+  .activities-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: articlesHorizontalMarquee 55s linear infinite;
+    will-change: transform;
+  }
+
   .articles-marquee-container:hover .articles-marquee-track,
-  .articles-marquee-container:focus-within .articles-marquee-track {
+  .articles-marquee-container:focus-within .articles-marquee-track,
+  .articles-marquee-container:hover .activities-marquee-track,
+  .articles-marquee-container:focus-within .activities-marquee-track {
     animation-play-state: paused;
   }
 }
@@ -88,7 +97,8 @@
     .hero-image-animate {
       animation: none !important;
     }
-    .articles-marquee-track {
+    .articles-marquee-track,
+    .activities-marquee-track {
       animation: none !important;
     }
     *, *::before, *::after {

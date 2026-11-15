@@ -276,59 +276,56 @@ export function HomePage({
             </button>
           </div>
 
-          {/* Asymmetric 2 + 3 Editorial Showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {HOME_ACTIVITIES.slice(0, 2).map((act) => (
-              <article
-                key={act.number}
-                className="group bg-[#F7F8F5] rounded-xl overflow-hidden border border-[#124B3B]/10 flex flex-col"
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <ResilientImage
-                    src={act.media.src}
-                    alt={act.media.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div className="p-7 sm:p-8 space-y-3 flex-1">
-                  <p className="text-xs font-semibold tracking-[0.18em] text-[#B88A42] tabular-nums">
-                    {act.number}
-                  </p>
-                  <h3 className="text-2xl font-serif font-semibold text-[#124B3B]">
-                    {act.title}
-                  </h3>
-                  <p className="text-sm sm:text-base leading-relaxed text-[#4A554F]">
-                    {act.description}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+          {/* Horizontal Marquee Editorial Showcase */}
+          <div
+            className="articles-marquee-container relative overflow-hidden py-1"
+            aria-label="Défilement horizontal de nos activités"
+          >
+            {/* Soft edge fades matching bg-white */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-14 bg-gradient-to-r from-white to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-14 bg-gradient-to-l from-white to-transparent"
+            />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {HOME_ACTIVITIES.slice(2).map((act) => (
-              <article
-                key={act.number}
-                className="group bg-[#F7F8F5] rounded-xl overflow-hidden border border-[#124B3B]/10 flex flex-col"
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <ResilientImage
-                    src={act.media.src}
-                    alt={act.media.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
+            <div className="activities-marquee-track">
+              {[false, true].map((isDuplicate) => (
+                <div
+                  key={isDuplicate ? 'act-loop-b' : 'act-loop-a'}
+                  aria-hidden={isDuplicate ? true : undefined}
+                  className="flex items-stretch gap-6 sm:gap-8 pr-6 sm:pr-8 shrink-0"
+                >
+                  {HOME_ACTIVITIES.map((act) => (
+                    <article
+                      key={`${isDuplicate ? 'b' : 'a'}-${act.number}`}
+                      className="group w-[290px] sm:w-[340px] lg:w-[375px] shrink-0 bg-[#F7F8F5] rounded-xl overflow-hidden border border-[#124B3B]/10 flex flex-col shadow-[0_2px_12px_-4px_rgba(18,75,59,0.05)]"
+                    >
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <ResilientImage
+                          src={act.media.src}
+                          alt={isDuplicate ? '' : act.media.alt}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        />
+                      </div>
+                      <div className="p-6 sm:p-7 space-y-2.5 flex-1">
+                        <p className="text-xs font-semibold tracking-[0.18em] text-[#B88A42] tabular-nums">
+                          {act.number}
+                        </p>
+                        <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#124B3B] leading-snug">
+                          {act.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-[#4A554F]">
+                          {act.description}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-                <div className="p-6 sm:p-7 space-y-2.5 flex-1">
-                  <p className="text-xs font-semibold tracking-[0.18em] text-[#B88A42] tabular-nums">
-                    {act.number}
-                  </p>
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#124B3B]">
-                    {act.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-[#4A554F]">{act.description}</p>
-                </div>
-              </article>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
