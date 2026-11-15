@@ -17,7 +17,8 @@ const PARTNERSHIP_TYPES = [
   'Autre collaboration',
 ];
 
-export function PartnersPage({ partners }: PartnersPageProps) {
+export function PartnersPage({ partners = [] }: PartnersPageProps) {
+  const safePartners = partners ?? [];
   const [organizationName, setOrganizationName] = useState('');
   const [contactName, setContactName] = useState('');
   const [email, setEmail] = useState('');
@@ -103,7 +104,7 @@ export function PartnersPage({ partners }: PartnersPageProps) {
             </h2>
           </div>
 
-          {partners.length === 0 ? (
+          {safePartners.length === 0 ? (
             <div className="bg-[#F7F8F5] border border-[#124B3B]/10 rounded-xl p-10 sm:p-14 text-center max-w-3xl mx-auto space-y-4">
               <div className="w-12 h-12 rounded-lg bg-white border border-[#124B3B]/15 flex items-center justify-center mx-auto text-[#124B3B]">
                 <Building2 className="w-6 h-6" strokeWidth={1.5} />
@@ -119,7 +120,7 @@ export function PartnersPage({ partners }: PartnersPageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {partners.map((partner) => (
+              {safePartners.map((partner) => (
                 <article
                   key={partner.id}
                   className="bg-[#F7F8F5] border border-[#124B3B]/10 rounded-xl p-7 flex flex-col justify-between space-y-6"

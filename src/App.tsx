@@ -75,7 +75,23 @@ export default function App() {
   const refreshPublicData = useCallback(async () => {
     try {
       const data = await fetchPublicData();
-      setSiteData(data);
+      setSiteData({
+        articles: Array.isArray(data?.articles) ? data.articles : DEFAULT_PUBLIC_DATA.articles,
+        partners: Array.isArray(data?.partners) ? data.partners : DEFAULT_PUBLIC_DATA.partners,
+        customStats: Array.isArray(data?.customStats)
+          ? data.customStats
+          : DEFAULT_PUBLIC_DATA.customStats,
+        settings: data?.settings
+          ? {
+              ...DEFAULT_PUBLIC_DATA.settings,
+              ...data.settings,
+              socialLinks: {
+                ...DEFAULT_PUBLIC_DATA.settings.socialLinks,
+                ...(data.settings.socialLinks ?? {}),
+              },
+            }
+          : DEFAULT_PUBLIC_DATA.settings,
+      });
     } catch (err) {
       console.error('Failed to load site data:', err);
     } finally {

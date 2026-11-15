@@ -57,7 +57,7 @@ export function ContactPage({ settings }: ContactPageProps) {
     }
   };
 
-  const hasExactAddress = settings.addressDetail.trim().length > 0;
+  const hasExactAddress = (settings?.addressDetail ?? '').trim().length > 0;
 
   return (
     <div>

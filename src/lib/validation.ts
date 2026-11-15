@@ -270,7 +270,7 @@ export function filterAndSortArticles(
   category: string = 'Toutes',
   onlyPublished: boolean = true
 ): Article[] {
-  return articles
+  return (articles ?? [])
     .filter((article) => (onlyPublished ? article.published : true))
     .filter((article) => (category === 'Toutes' ? true : article.category === category))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
@@ -391,7 +391,7 @@ export function searchPublicDirectory(
     return haystack.includes(query);
   });
 
-  const matchedArticles: PublicSearchResult[] = articles
+  const matchedArticles: PublicSearchResult[] = (articles ?? [])
     .filter((art) => art.published)
     .filter((art) => {
       const haystack = normalizeSearchTerm(`${art.title} ${art.category} ${art.excerpt}`);

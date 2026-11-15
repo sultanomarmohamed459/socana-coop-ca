@@ -24,6 +24,10 @@ async function parseResponse<T>(res: Response): Promise<T> {
 
 export async function fetchPublicData(): Promise<PublicSiteData> {
   const res = await fetch('/api/public-data');
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error('Réponse API non JSON.');
+  }
   return parseResponse<PublicSiteData>(res);
 }
 

@@ -95,7 +95,7 @@ export function HomePage({
   loading = false,
   onNavigate,
 }: HomePageProps) {
-  const latestArticles = articles.slice(0, 6);
+  const latestArticles = articles?.slice(0, 6) ?? [];
   const marqueeArticles =
     latestArticles.length === 0
       ? []
@@ -121,7 +121,7 @@ export function HomePage({
       label: "Domaine d'activité",
       detail: 'Accompagnement, collecte et commercialisation du caoutchouc naturel.',
     },
-    ...customStats.map((s) => ({
+    ...(customStats ?? []).map((s) => ({
       value: s.value,
       label: s.label,
       detail: s.detail,

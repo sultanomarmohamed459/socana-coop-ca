@@ -15,7 +15,8 @@ export function ArticleDetailPage({
   slug,
   onNavigate,
 }: ArticleDetailPageProps) {
-  const article = articles.find((a) => a.slug === slug);
+  const safeArticles = articles ?? [];
+  const article = safeArticles.find((a) => a.slug === slug);
 
   if (!article) {
     return (
@@ -41,7 +42,7 @@ export function ArticleDetailPage({
   }
 
   const img = resolveArticleImage(article.mediaKey, article.customImageUrl);
-  const { previous, next } = getAdjacentArticles(articles, article.slug);
+  const { previous, next } = getAdjacentArticles(safeArticles, article.slug);
 
   return (
     <article className="bg-white">
@@ -94,7 +95,7 @@ export function ArticleDetailPage({
       {/* Optimal 65-75ch Mobile-Friendly Reading Column */}
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
         <div className="space-y-6 text-base sm:text-[17px] leading-[1.8] text-[#2A332E]">
-          {article.content.map((paragraph, index) => (
+          {(article.content ?? []).map((paragraph, index) => (
             <p
               key={index}
               className={

@@ -123,9 +123,9 @@ export function Footer({ settings, onNavigate }: FooterProps) {
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#D0AC69] shrink-0 mt-0.5" />
                 <span>
-                  {settings.addressDetail
-                    ? `${settings.addressDetail}, ${settings.location}`
-                    : settings.location}
+                  {settings?.addressDetail
+                    ? `${settings.addressDetail}, ${settings?.location ?? "Abidjan, Côte d'Ivoire"}`
+                    : (settings?.location ?? "Abidjan, Côte d'Ivoire")}
                 </span>
               </li>
               <li className="flex items-start gap-3">
